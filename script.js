@@ -12,6 +12,77 @@ const generateBtn = document.querySelector(".generateButton");
 const allCheckBox = document.querySelectorAll("input[type=checkbox]");
 const symbols = '~`!@#$%^&*()_-+={[}]|:;"<,>.?/';
 
+//Toggle function for blue/dark/white theme
+document.addEventListener("DOMContentLoaded", function () {
+    // Check local storage for user's mode preference
+    const currentMode = localStorage.getItem('mode');
+    const headingColor = localStorage.getItem('headingColor');
+    const heading = document.querySelector('h1');
+    
+    // If no preference is set, default to light mode
+    if (!currentMode) {
+        heading.style.color = "darkred";
+        localStorage.setItem('headingColor', "darkred"); 
+        document.body.classList.add('light-mode');
+        document.getElementById('mode-icon').style.color = 'black';
+        document.body.style.backgroundColor = "white";
+    } else {
+        // Set body to the saved mode
+        document.body.classList.add(currentMode); 
+        if (currentMode === 'dark-mode') {
+            heading.style.color = "rgb(172, 199, 241)";
+            localStorage.setItem('headingColor', "rgb(172, 199, 241)");
+            document.getElementById('mode-icon').style.color = 'white';
+            document.body.style.backgroundColor = "#121212";
+        } else if (currentMode === 'dark-shade-mode') {
+            heading.style.color = "white";
+            localStorage.setItem('headingColor', "white");
+            document.getElementById('mode-icon').style.color = 'white';
+            document.body.style.backgroundColor = "#2b2b2b";
+        } else {
+            heading.style.color = "darkred";
+            localStorage.setItem('headingColor', "darkred");
+            document.getElementById('mode-icon').style.color = 'black';
+            document.body.style.backgroundColor = "white";
+        }
+    }
+
+    // Toggle function
+    const toggleButton = document.getElementById('mode-toggle');
+    if (toggleButton) {
+        toggleButton.addEventListener('click', function () {
+            // Toggle the mode
+            if (document.body.classList.contains('dark-mode')) {
+                // Switch to light mode
+                document.body.classList.remove('dark-mode');
+                document.body.classList.add('light-mode');
+                localStorage.setItem('mode', 'light-mode');
+                heading.style.color = "darkred";
+                localStorage.setItem('headingColor', "darkred"); 
+                document.getElementById('mode-icon').style.color = 'black'; 
+                document.body.style.backgroundColor = "white";
+            } else if (document.body.classList.contains('light-mode')) {
+                // Switch to dark shade mode
+                document.body.classList.remove('light-mode');
+                document.body.classList.add('dark-shade-mode');
+                localStorage.setItem('mode', 'dark-shade-mode');
+                heading.style.color = "white"; 
+                localStorage.setItem('headingColor', "white"); 
+                document.getElementById('mode-icon').style.color = 'white'; 
+                document.body.style.backgroundColor = "#2b2b2b"; 
+            } else if (document.body.classList.contains('dark-shade-mode')) {
+                // Switch to dark mode
+                document.body.classList.remove('dark-shade-mode');
+                document.body.classList.add('dark-mode');
+                localStorage.setItem('mode', 'dark-mode');
+                heading.style.color = "rgb(172, 199, 241)"; 
+                localStorage.setItem('headingColor', "rgb(172, 199, 241)"); 
+                document.getElementById('mode-icon').style.color = 'white';
+                document.body.style.backgroundColor = "#121212";
+            }
+        });
+    }
+});
 
 //initially
 let password = "";
