@@ -10,12 +10,12 @@ const symbolsCheck = document.querySelector("#symbols");
 const indicator = document.querySelector("[data-indicator]");
 const generateBtn = document.querySelector(".generateButton");
 const allCheckBox = document.querySelectorAll("input[type=checkbox]");
-const symbols = '~`!@#$%^&*()_-+={[}]|:;"<,>.?/';
+const symbols = '~`!@#$%^&*()_-+={[}]|:;"<,>.?/\©®€£¥';
 
 
 //initially
 let password = "";
-let passwordLength = 10;
+let passwordLength = 12;
 let checkCount = 0;
 handleSlider();
 //ste strength circle color to grey
@@ -34,7 +34,7 @@ function setIndicator(color) {
 }
 
 function getRndInteger(min, max) {
-    return Math.floor(Math.random() * (max - min)) + min;
+    return Math.floor(Math.random() * (max-min)) + min;
 }
 
 function generateRandomNumber() {
@@ -53,6 +53,27 @@ function generateSymbol() {
     const randNum = getRndInteger(0, symbols.length);
     return symbols.charAt(randNum);
 }
+allCheckBox.forEach((checkbox) => {
+    checkbox.addEventListener('change', () => {
+        handleCheckBoxChange();
+        calcStrength(); 
+    });
+});
+
+function handleCheckBoxChange() {
+    checkCount = 0;
+    allCheckBox.forEach((checkbox) => {
+        if (checkbox.checked) {
+            checkCount++;
+        }
+    });
+
+    // Special condition
+    if (passwordLength < checkCount) {
+        passwordLength = checkCount;
+        handleSlider();
+    }
+}
 
 function calcStrength() {
     let hasUpper = false;
@@ -63,17 +84,23 @@ function calcStrength() {
     if (lowercaseCheck.checked) hasLower = true;
     if (numbersCheck.checked) hasNum = true;
     if (symbolsCheck.checked) hasSym = true;
-  
-    if (hasUpper && hasLower && (hasNum || hasSym) && passwordLength >= 8) {
-      setIndicator("#0f0");
+    const strengthLabel = document.getElementById("strengthLabel");
+    
+    if((hasUpper&&hasLower&&hasNum&&hasSym)&& passwordLength>=12){
+        setIndicator("#00ff00");
+        strengthLabel.innerText = "Very Strong";
+    } else if (hasUpper && hasLower && (hasNum || hasSym) || (hasLower && hasNum && (hasUpper|| hasSym)) || (hasNum && hasSym && (hasUpper|| hasLower)) && passwordLength >= 12) {
+      setIndicator("#00ff9c");
+      strengthLabel.innerText = "Strong";
     } else if (
-      (hasLower || hasUpper) &&
-      (hasNum || hasSym) &&
-      passwordLength >= 6
+        (hasUpper&&hasLower&&!hasNum&&!hasSym || hasUpper&&!hasLower&&hasNum&&!hasSym || hasUpper&&!hasLower&&!hasNum&&hasSym) || (!hasUpper&&hasLower&&hasNum&&!hasSym || !hasUpper&&hasLower&&!hasNum&&hasSym) || (!hasUpper&&!hasLower&&hasNum&&hasSym) && passwordLength>=8
     ) {
       setIndicator("#ff0");
-    } else {
+      strengthLabel.innerText = "Moderate";
+    if (uppercaseCheck.checked) hasUpper = true;
+    } else if(hasUpper&&!hasLower&&!hasNum&&!hasSym || !hasUpper&&hasLower&&!hasNum&&!hasSym || !hasUpper&&!hasLower&&hasNum&&!hasSym || !hasUpper&&!hasLower&&!hasNum&&hasSym && passwordLength<=8 ){
       setIndicator("#f00");
+      strengthLabel.innerText = "Weak";
     }
 }
 
