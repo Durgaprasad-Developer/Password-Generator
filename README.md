@@ -1,3 +1,6 @@
+## New feature
+Major: added a new feature in strength Indicator and live updating indicator color and new feature 
+Minor: changed initial length from 8 to 12 and increased max length from 20 to 25
 ### Password Generator 🔐
 
 A secure and customizable password generator built with HTML, CSS, and JavaScript.
