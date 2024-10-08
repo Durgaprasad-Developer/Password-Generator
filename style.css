@@ -27,6 +27,9 @@ body.dark-mode {
     background: linear-gradient(231deg, rgba(22, 6, 40, 1) 0%, rgb(35, 3, 72) 50%, rgba(88, 7, 125, 1) 100%);
     color: var(--pl-white);
 }
+input[data-passwordDisplay]::placeholder {
+    color: var(--placeholder-color); /* Use the CSS variable set in JavaScript */
+}
 
 #mode-toggle {
     position:absolute;
@@ -159,10 +162,6 @@ h1 {
     border-radius: 0.35rem;
 }
 
-
-.check input:checked{
-    background-color: var(--vb-cyan);
-}
 
 
 .check input:checked::before {
