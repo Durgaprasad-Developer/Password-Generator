@@ -161,9 +161,6 @@ h1 {
     position: relative;
     border-radius: 0.35rem;
 }
-
-
-
 .check input:checked::before {
     content: '✔';
     position: absolute;
@@ -174,7 +171,9 @@ h1 {
     top:-9.5px;
     transform: translateX(-50%)  translateY(40%);
 }
-
+.checkbox-icon{
+    display: none;
+}
 .check label {
     color: var(--pl-white);
     font-size: 1.25rem;
@@ -187,7 +186,7 @@ h1 {
     outline:none;
 }
 
-.tooltip {
+#tooltip {
     position: absolute;
     background-color: var(--vb-violet2);
     color: var(--vb-yellow);
@@ -202,7 +201,7 @@ h1 {
     transition: all 250ms ease-in-out;
   }
   
-  .tooltip.active {
+  #tooltip.active {
     opacity: 1;
     transform: scale(1);
   }

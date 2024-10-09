@@ -23,6 +23,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const displayContainer = document.querySelector('.display-container');
     const inputDisplay = document.querySelector('input[data-passwordDisplay]');
     const generateButton = document.getElementById('generateButton');
+    const generateBtn = document.querySelector(".generateButton"); 
+    const copyBtn = document.querySelector(".copyBtn");
+    const tooltip = document.getElementById('tooltip');
     const updateSliderColor = (mode) => {
         const slider = document.querySelector('input[data-lengthSlider]');
         if (slider) {
@@ -62,7 +65,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const updateInputTextColor = (mode) => {
         inputDisplay.style.color = mode === 'light-mode' ? '#700067' : 'hsla(98, 100%, 50%, 0.957)';
     };
-
     const updatePlaceholderColor = (mode) => {
         if (mode === 'light-mode') {
             inputDisplay.style.setProperty('--placeholder-color', '#700067');
@@ -70,54 +72,49 @@ document.addEventListener("DOMContentLoaded", function () {
             inputDisplay.style.setProperty('--placeholder-color', 'hsla(98, 100%, 50%, 0.957)');
         }
     };
-
     const updateGenerateButtonColor = (mode) => {
         if (generateButton) {
             generateButton.style.backgroundColor = mode === 'light-mode' ? '#001358' : 'blanchedalmond';
             generateBtn.style.color = mode === 'light-mode' ? 'white' : 'darkred';
         }
     };
-    const generateBtn = document.querySelector(".generateButton"); 
-
-    const copyBtn = document.querySelector(".copyBtn");
-
     const applyModeStyles = (mode) => {
         document.body.className = mode;
-    
         if (mode === 'light-mode') {
             heading.style.color = "darkred";
             document.getElementById('mode-icon').style.color = 'black';
             document.body.style.backgroundColor = "white";
             inputContainer.style.backgroundColor = "#D2D3D3";
             displayContainer.style.backgroundColor = "#D2D3D3";
-    
             paragraphs.forEach(p => p.style.color = 'black');
             labels.forEach(label => label.style.color = 'black');
-    
             generateBtn.style.backgroundColor = '#001358';
             generateBtn.style.color = 'white';
-    
+            copyBtn.style.color = 'darkred'; 
+            tooltip.style.backgroundColor = '#0077FF';
+            tooltip.style.color = '#FFEA00';
         } else {
             heading.style.color = "rgb(172, 199, 241)";
             document.getElementById('mode-icon').style.color = 'white';
             document.body.style.backgroundColor = "#121212";
             inputContainer.style.backgroundColor = "";
             displayContainer.style.backgroundColor = "";
-    
             paragraphs.forEach(p => p.style.color = 'white');
             labels.forEach(label => label.style.color = 'white');
-    
             generateBtn.style.backgroundColor = 'blanchedalmond';
             generateBtn.style.color = 'darkred';
-            copyBtn.style.color = 'darkred';
+            copyBtn.style.color = 'hsla(98, 100%, 50%, 0.957)';
+            tooltip.style.backgroundColor = ''; 
+            tooltip.style.color = ''; 
         }
-    
+
         updateCheckboxStyles(mode);
         updateInputTextColor(mode);
         updatePlaceholderColor(mode);
         updateGenerateButtonColor(mode);
         updateSliderColor(mode);
     };
+
     // Initial setup based on stored mode or default
     applyModeStyles(currentMode);
 
@@ -129,6 +126,7 @@ document.addEventListener("DOMContentLoaded", function () {
             applyModeStyles(newMode);
         });
     }
+    
     const checkboxes = document.querySelectorAll('.check input[type="checkbox"]');
     checkboxes.forEach(checkbox => {
         checkbox.addEventListener('change', function () {
@@ -136,6 +134,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 });
+
 
 //initially
 let password = "";
@@ -217,6 +216,53 @@ async function copyContent() {
     },2000);
 
 }
+document.addEventListener("DOMContentLoaded", function () {
+    const copyBtn = document.querySelector('[data-copy]');
+    const passwordDisplay = document.querySelector('input[data-passwordDisplay]');
+    const copyIcon = copyBtn.querySelector('.copy-icon');
+    const checkboxIcon = copyBtn.querySelector('.checkbox-icon');
+    const tooltip = copyBtn.querySelector('#tooltip');
+    const copyMsg = document.getElementById('copyMsg');
+
+    const updateCopyButtonState = () => {
+        copyBtn.disabled = !passwordDisplay.value.trim();
+    };
+
+    const generatePassword = () => {
+        passwordDisplay.value = "YourGeneratedPassword"; // Generate your password logic here
+        updateCopyButtonState();
+    };
+
+    const handleCopy = () => {
+        const passwordToCopy = passwordDisplay.value.trim();
+        if (!passwordToCopy) return;
+
+        navigator.clipboard.writeText(passwordToCopy).then(() => {
+            copyIcon.style.display = 'none';
+            checkboxIcon.style.display = 'inline-block';
+            tooltip.classList.add('active');
+            copyMsg.innerText = "Copied";
+        }).catch(() => {
+            copyMsg.innerText = "Failed";
+        }).finally(() => {
+            setTimeout(() => {
+                copyIcon.style.display = 'inline-block';
+                checkboxIcon.style.display = 'none';
+                tooltip.classList.remove('active');
+                copyMsg.classList.add("active");
+                setTimeout(() => copyMsg.classList.remove("active"), 2000);
+            }, 2000);
+        });
+    };
+
+    passwordDisplay.addEventListener('input', updateCopyButtonState);
+    document.getElementById('generateButton').addEventListener('click', generatePassword);
+    copyBtn.addEventListener('click', handleCopy);
+
+    updateCopyButtonState();
+});
+
+
 
 function shufflePassword(array) {
     //Fisher Yates Method

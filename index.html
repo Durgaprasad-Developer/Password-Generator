@@ -29,10 +29,14 @@
             <input readonly placeholder="Password" class="display" data-passwordDisplay>
 
             <button class="copyBtn" data-copy>
-                <span class="tooltip" data-copyMsg></span>
-                <img src="copy.svg" alt="copy" width="23" height="23">
+                <span class="tooltip" id="tooltip" data-copyMsg="Copied!">Copied!</span>
+                <span class="material-symbols-outlined copy-icon">
+                    content_copy
+                </span>
+                <span class="material-symbols-outlined checkbox-icon" style="color: green; display: none;">
+                    check_circle
+                </span>
             </button>
-
         </div>
 
 
