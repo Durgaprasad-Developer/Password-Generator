@@ -15,15 +15,26 @@ const symbols = '~`!@#$%^&*()_-+={[}]|:;"<,>.?/';
 
 //Toggle function for blue/dark/white theme
 document.addEventListener("DOMContentLoaded", function () {
-    const currentMode = localStorage.getItem('mode') || 'light-mode'; // Default to light mode if not set
+    const currentMode = localStorage.getItem('mode') || 'light-mode';
     const heading = document.querySelector('h1');
     const paragraphs = document.querySelectorAll('p');
     const labels = document.querySelectorAll('label');
     const inputContainer = document.querySelector('.input-container');
     const displayContainer = document.querySelector('.display-container');
-    const inputDisplay = document.querySelector('input[data-passwordDisplay]'); // Input field reference
-    const generateButton = document.getElementById('generateButton'); // Select the Generate button
-
+    const inputDisplay = document.querySelector('input[data-passwordDisplay]');
+    const generateButton = document.getElementById('generateButton');
+    const updateSliderColor = (mode) => {
+        const slider = document.querySelector('input[data-lengthSlider]');
+        if (slider) {
+            if (mode === 'light-mode') {
+                slider.style.backgroundImage = 'linear-gradient(#0066ff, #0066ff)';
+                slider.style.setProperty('--vb-yellow', '#ffcc00');
+            } else {
+                slider.style.backgroundImage = '';
+                slider.style.setProperty('--vb-yellow', '');
+            }
+        }
+    };
     const updateCheckboxStyles = (mode) => {
         const checkboxes = document.querySelectorAll('.check input[type="checkbox"]');
         checkboxes.forEach(checkbox => {
@@ -48,7 +59,6 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     };
-
     const updateInputTextColor = (mode) => {
         inputDisplay.style.color = mode === 'light-mode' ? '#700067' : 'hsla(98, 100%, 50%, 0.957)';
     };
@@ -67,13 +77,12 @@ document.addEventListener("DOMContentLoaded", function () {
             generateBtn.style.color = mode === 'light-mode' ? 'white' : 'darkred';
         }
     };
+    const generateBtn = document.querySelector(".generateButton"); 
 
-    const generateBtn = document.querySelector(".generateButton"); // Select the Generate button
-
-    const copyBtn = document.querySelector(".copyBtn"); // Select the Copy button
+    const copyBtn = document.querySelector(".copyBtn");
 
     const applyModeStyles = (mode) => {
-        document.body.className = mode; // Apply mode class to body
+        document.body.className = mode;
     
         if (mode === 'light-mode') {
             heading.style.color = "darkred";
@@ -85,32 +94,30 @@ document.addEventListener("DOMContentLoaded", function () {
             paragraphs.forEach(p => p.style.color = 'black');
             labels.forEach(label => label.style.color = 'black');
     
-            generateBtn.style.backgroundColor = '#001358';  // Change button color in light mode
+            generateBtn.style.backgroundColor = '#001358';
             generateBtn.style.color = 'white';
     
         } else {
             heading.style.color = "rgb(172, 199, 241)";
             document.getElementById('mode-icon').style.color = 'white';
             document.body.style.backgroundColor = "#121212";
-            inputContainer.style.backgroundColor = ""; // Reset background in dark mode
-            displayContainer.style.backgroundColor = ""; // Reset background in dark mode
+            inputContainer.style.backgroundColor = "";
+            displayContainer.style.backgroundColor = "";
     
             paragraphs.forEach(p => p.style.color = 'white');
             labels.forEach(label => label.style.color = 'white');
     
-            generateBtn.style.backgroundColor = 'blanchedalmond';  // Change button color in dark mode
+            generateBtn.style.backgroundColor = 'blanchedalmond';
             generateBtn.style.color = 'darkred';
-            copyBtn.style.color = 'darkred'; // Change Copy button text color in dark mode
+            copyBtn.style.color = 'darkred';
         }
     
         updateCheckboxStyles(mode);
         updateInputTextColor(mode);
         updatePlaceholderColor(mode);
-        updateGenerateButtonColor(mode);  // Keep this in case it's needed elsewhere
+        updateGenerateButtonColor(mode);
+        updateSliderColor(mode);
     };
-    
-
-
     // Initial setup based on stored mode or default
     applyModeStyles(currentMode);
 
@@ -122,7 +129,6 @@ document.addEventListener("DOMContentLoaded", function () {
             applyModeStyles(newMode);
         });
     }
-
     const checkboxes = document.querySelectorAll('.check input[type="checkbox"]');
     checkboxes.forEach(checkbox => {
         checkbox.addEventListener('change', function () {
@@ -130,18 +136,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 });
-
-
-
-
-
-
-
-
-
-
-
-
 
 //initially
 let password = "";
