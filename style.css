@@ -7,7 +7,6 @@
     font-family: 'League Spartan', sans-serif;
 }
 :root {
-
     --dk-violet: hsl(249, 72%, 11%);
     --lt-violet: hsl(297, 63%, 71%);
     --lt-violet2: hsla(300, 89%, 26%, 0.322);
@@ -23,6 +22,25 @@
     --vb-cyan2: hsl(177, 92%, 70%);
     --dk-text: hsl(198, 20%, 13%);
 }
+
+body.dark-mode {
+    background: linear-gradient(231deg, rgba(22, 6, 40, 1) 0%, rgb(35, 3, 72) 50%, rgba(88, 7, 125, 1) 100%);
+    color: var(--pl-white);
+}
+input[data-passwordDisplay]::placeholder {
+    color: var(--placeholder-color); /* Use the CSS variable set in JavaScript */
+}
+
+#mode-toggle {
+    position:absolute;
+    top:20px;
+    right:20px;
+    background:transparent;
+    border:none;
+    outline:none;
+    cursor:pointer;
+    z-index:1000;
+}
 body {
     width: 100vw;
     height: 100vh;
@@ -30,7 +48,6 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(231deg, rgba(22, 6, 40, 1) 0%, rgb(35, 3, 72) 50%, rgba(88, 7, 125, 1) 100%);
 }
 h1 {
     color: rgb(172, 199, 241);
@@ -144,13 +161,6 @@ h1 {
     position: relative;
     border-radius: 0.35rem;
 }
-
-
-.check input:checked{
-    background-color: var(--vb-cyan);
-}
-
-
 .check input:checked::before {
     content: '✔';
     position: absolute;
@@ -161,7 +171,9 @@ h1 {
     top:-9.5px;
     transform: translateX(-50%)  translateY(40%);
 }
-
+.checkbox-icon{
+    display: none;
+}
 .check label {
     color: var(--pl-white);
     font-size: 1.25rem;
@@ -174,7 +186,7 @@ h1 {
     outline:none;
 }
 
-.tooltip {
+#tooltip {
     position: absolute;
     background-color: var(--vb-violet2);
     color: var(--vb-yellow);
@@ -189,7 +201,7 @@ h1 {
     transition: all 250ms ease-in-out;
   }
   
-  .tooltip.active {
+  #tooltip.active {
     opacity: 1;
     transform: scale(1);
   }
@@ -232,6 +244,7 @@ h1 {
     outline: 2px solid var(--vb-yellow);
     background-color: var(--dk-violet);
     box-shadow: 0px 0px 25px 5px rgba(255, 229, 61, 0.80);
+
 }
 
 .strength-container {
@@ -250,3 +263,6 @@ h1 {
 #strengthLabel{
     color:#abaedd
 }
+
+}
+

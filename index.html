@@ -11,10 +11,15 @@
       href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@100;200;300;400;600&display=swap"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    
+    <!--toggle button-->
+    <button id="mode-toggle" aria-label="Toggle Theme">
+        <span id="mode-icon" style="font-size: 40px; color: black;" class="material-symbols-outlined">light_mode</span>
+    </button>
     <div class="container">
 
         <h1>Password Generator</h1>
@@ -24,10 +29,14 @@
             <input readonly placeholder="Password" class="display" data-passwordDisplay>
 
             <button class="copyBtn" data-copy>
-                <span class="tooltip" data-copyMsg></span>
-                <img src="copy.svg" alt="copy" width="23" height="23">
+                <span class="tooltip" id="tooltip" data-copyMsg="Copied!">Copied!</span>
+                <span class="material-symbols-outlined copy-icon">
+                    content_copy
+                </span>
+                <span class="material-symbols-outlined checkbox-icon" style="color: green; display: none;">
+                    check_circle
+                </span>
             </button>
-
         </div>
 
 
